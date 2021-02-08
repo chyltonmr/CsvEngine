@@ -3,17 +3,12 @@ using System.Reflection;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using CsvFile.Test;
 
-namespace File.FileType
+namespace CsvFile
 {
-    public class Chylton
-    {
-        public string Nome { get; set; }
-        public int Idade { get; set; }
-    }
     public class Csv
     {
-
 
         public void Teste()
         {
