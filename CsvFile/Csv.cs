@@ -41,7 +41,7 @@ namespace CsvFile
                 for (int v = 0; v < values.Length; v++)
                 {
                     PropertyInfo property = this.GetPropertyInfo(properties, columns[v]);
-                    object tipoValorPropriedade = this.TiparValor(property.PropertyType.Name, values[v]);
+                    object tipoValorPropriedade = this.TiparValor(property.PropertyType, values[v]);
                     property.SetValue(obj, tipoValorPropriedade);
                 }
 
@@ -94,41 +94,9 @@ namespace CsvFile
         /// <param name="columType"> Tipo da coluna da propriedade passada da class Dto</param>
         /// <param name="value">Valor fornecido do csv que sera tipado </param>
         /// <returns></returns>
-        private object TiparValor(string columType, object value)
+        private object TiparValor(Type columType, object value)
         {
-            object response = default(object);
-
-            switch (columType)
-            {
-                case "String":
-                    response = Convert.ToString(value);
-                    break;
-                case "Int16":
-                    response = Convert.ToInt16(value);
-                    break;
-                case "Int32":
-                    response = Convert.ToInt32(value);
-                    break;
-                case "Int64":
-                    response = Convert.ToInt64(value);
-                    break;
-                case "Double":
-                    response = Convert.ToDouble(value);
-                    break;
-                case "Decimal":
-                    response = Convert.ToDecimal(value);
-                    break;
-                case "DateTime":
-                    response = Convert.ToDateTime(value);
-                    break;
-                case "Char":
-                    response = Convert.ToChar(value);
-                    break;
-                default:
-                    // code block
-                    break;
-            }
-
+            object response = Convert.ChangeType(value, columType);
             return response;
         }
 
