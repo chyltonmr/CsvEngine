@@ -17,7 +17,7 @@ namespace Teste
             var csv = new Csv();
             List<Chylton> response = csv.CsvMap<Chylton>(linhas);
 
-            if (csv.Errors.Properties.Any())
+            if (csv.Errors != null && csv.Errors.Properties.Any())
             {
                 var tem = "Tem erro";
             }

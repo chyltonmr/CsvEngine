@@ -12,10 +12,6 @@ namespace CsvFile
     {
         public Errors Errors { get; private set; }
 
-        public Csv()
-        {
-            this.Errors = new Errors();
-        }
 
         /// <summary>
         /// Mapeia string csv para class Dto fornecida
@@ -125,7 +121,10 @@ namespace CsvFile
             }
 
             if (!located)
+            {
+                this.Errors = new Errors();
                 this.Errors.Properties.Add($"{column}", $"Propriedade {column} não localizada na class fornecida");
+            }
 
             return index;
         }
