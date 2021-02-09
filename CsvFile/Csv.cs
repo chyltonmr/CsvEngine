@@ -19,7 +19,7 @@ namespace CsvFile
         }
         public void Teste()
         {
-            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;chylton;34";
+            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;Lidiane;33";
             var df = TimeSpan.FromSeconds(25);
             this.CsvMap<Chylton>(linhas);
         }
@@ -54,8 +54,8 @@ namespace CsvFile
 
                 retorno.Add(obj);
             }
+
             this.Data = retorno;
-            // return retorno;
         }
 
         #region Metodos Auxiliares
