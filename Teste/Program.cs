@@ -12,15 +12,15 @@ namespace Teste
         {
             Console.WriteLine("Hello World!");
 
+            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;Lidiane;33";
+
             var csv = new Csv();
-            csv.Teste();
+            List<Chylton> response = csv.CsvMap<Chylton>(linhas);
 
             if (csv.Errors.Properties.Any())
             {
                 var tem = "Tem erro";
             }
-
-            List<Chylton> c = (List<Chylton>)csv.Data;
         }
     }
 }

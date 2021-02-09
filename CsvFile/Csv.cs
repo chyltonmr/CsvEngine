@@ -11,17 +11,10 @@ namespace CsvFile
     public class Csv
     {
         public Errors Errors { get; private set; }
-        public object Data { get; private set; }
 
         public Csv()
         {
             this.Errors = new Errors();
-        }
-        public void Teste()
-        {
-            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;Lidiane;33";
-            var df = TimeSpan.FromSeconds(25);
-            this.CsvMap<Chylton>(linhas);
         }
 
         /// <summary>
@@ -30,7 +23,7 @@ namespace CsvFile
         /// <typeparam name="T">Qualque class Dto para realizar mapeamento</typeparam>
         /// <param name="linhas">string Csv que deve ser utilizada no mapeamento</param>
         /// <returns>Lista da class dto fornecida</returns>
-        public void CsvMap<T>(string linhas) where T : new()
+        public List<T> CsvMap<T>(string linhas) where T : new()
         {
             PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();
@@ -55,7 +48,7 @@ namespace CsvFile
                 retorno.Add(obj);
             }
 
-            this.Data = retorno;
+            return retorno;
         }
 
         #region Metodos Auxiliares
