@@ -12,8 +12,8 @@ namespace CsvFile
 
         public void Teste()
         {
-            string linhas = $"Nome;Idade{Environment.NewLine}chylton;34{Environment.NewLine}lidiane;33";
-
+            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;chylton;34";
+            var df = TimeSpan.FromSeconds(25);
             var c = this.CsvMap<Chylton>(linhas);
         }
 
