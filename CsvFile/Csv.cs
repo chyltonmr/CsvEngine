@@ -4,17 +4,24 @@ using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using CsvFile.Test;
+using CsvFile.Error;
 
 namespace CsvFile
 {
     public class Csv
     {
+        public Errors Errors { get; private set; }
+        public object Data { get; private set; }
 
+        public Csv()
+        {
+            this.Errors = new Errors();
+        }
         public void Teste()
         {
             string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;34" + Environment.NewLine + "1;12/11/2021;chylton;34";
             var df = TimeSpan.FromSeconds(25);
-            var c = this.CsvMap<Chylton>(linhas);
+            this.CsvMap<Chylton>(linhas);
         }
 
         /// <summary>
@@ -23,9 +30,9 @@ namespace CsvFile
         /// <typeparam name="T">Qualque class Dto para realizar mapeamento</typeparam>
         /// <param name="linhas">string Csv que deve ser utilizada no mapeamento</param>
         /// <returns>Lista da class dto fornecida</returns>
-        public List<T> CsvMap<T>(string linhas) where T : new()
+        public void CsvMap<T>(string linhas) where T : new()
         {
-            PropertyInfo[] properties = this.PegarPropriedadesDto<T>();
+            PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();
 
             string[] columns = this.GetColumns(linhas);
@@ -47,8 +54,8 @@ namespace CsvFile
 
                 retorno.Add(obj);
             }
-
-            return retorno;
+            this.Data = retorno;
+            // return retorno;
         }
 
         #region Metodos Auxiliares
@@ -58,7 +65,7 @@ namespace CsvFile
         /// </summary>
         /// <typeparam name="T">Qualquer class dto</typeparam>
         /// <returns></returns>
-        private PropertyInfo[] PegarPropriedadesDto<T>() where T : new()
+        private PropertyInfo[] GetDtoProperties<T>() where T : new()
         {
             PropertyInfo[] propriedades = new T().GetType()?.GetProperties();
             return propriedades;
@@ -110,6 +117,7 @@ namespace CsvFile
         {
             PropertyInfo index = default(PropertyInfo);
             string nomePropriedade = default(string);
+            bool located = false;
 
             for (int i = 0; i < nomePropriedades.Length; i++)
             {
@@ -118,9 +126,13 @@ namespace CsvFile
                 if (nomePropriedade == column)
                 {
                     index = nomePropriedades[i];
+                    located = true;
                     break;
                 }
             }
+
+            if (!located)
+                this.Errors.Properties.Add($"{column}", $"Propriedade {column} não localizada na class fornecida");
 
             return index;
         }
