@@ -24,13 +24,19 @@ namespace CsvFile
         }
         #endregion
 
+        public string BuildCsv<T>(T linhas) where T : new()
+        {
+            //TODO: Criar funcionalidade
+            return "retorna .csv";
+        }
+
         /// <summary>
         /// Mapeia string csv para class Dto fornecida
         /// </summary>
         /// <typeparam name="T">Qualque class Dto para realizar mapeamento</typeparam>
         /// <param name="linhas">string Csv que deve ser utilizada no mapeamento</param>
         /// <returns>Lista da class dto fornecida</returns>
-        public List<T> CsvMap<T>(string linhas, bool CsvAnalysis = true) where T : new()
+        public List<T> MapCsv<T>(string linhas, bool CsvAnalysis = true) where T : new()
         {
             PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();
