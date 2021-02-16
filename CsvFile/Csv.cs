@@ -10,15 +10,19 @@ namespace CsvFile
 {
     public class Csv
     {
+        #region Properties
         public List<KeyValuePair<Error, string>> Errors { get; private set; }
         private List<string> DifferentProperties { get; set; }
         private Type MappingInstance { get; set; }
+        #endregion
 
+        #region constructor
         public Csv()
         {
             this.Errors = new List<KeyValuePair<Error, string>>();
             this.DifferentProperties = new List<string>();
         }
+        #endregion
 
         /// <summary>
         /// Mapeia string csv para class Dto fornecida
