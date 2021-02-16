@@ -11,10 +11,13 @@ namespace CsvFile
     public class Csv
     {
         public List<KeyValuePair<Error, string>> Errors { get; private set; }
+        private List<string> DifferentProperties { get; set; }
+        private Type MappingInstance { get; set; }
 
         public Csv()
         {
             this.Errors = new List<KeyValuePair<Error, string>>();
+            this.DifferentProperties = new List<string>();
         }
 
         /// <summary>
@@ -27,6 +30,7 @@ namespace CsvFile
         {
             PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();
+            this.MappingInstance = typeof(T);
 
             (string[] columns, int numberColumns) = this.GetColumns(linhas);
 
@@ -140,6 +144,18 @@ namespace CsvFile
                 {
                     index = nomePropriedades[i];
                     located = true;
+                    break;
+                }
+                else if (nomePropriedade.ToLower() == column.ToLower())
+                {
+                    index = nomePropriedades[i];
+                    located = true;
+                    string prop = this.DifferentProperties.SingleOrDefault(x => x == column);
+                    if (string.IsNullOrEmpty(prop))
+                    {
+                        this.DifferentProperties.Add(column);
+                        this.AddErrorMessage(Error.WARNING, $"Propriedade {column} está diferente da propriedade {nomePropriedade} da instancia informada {this.MappingInstance}");
+                    }
                     break;
                 }
             }
