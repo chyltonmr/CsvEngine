@@ -57,7 +57,7 @@ namespace CsvFile
                 }
                 catch (Exception)
                 {
-                    this.Errors.Add(new KeyValuePair<Error, string>(Error.CRITICAL, $"Ocorreu um erro inesperado"));
+                    this.AddErrorMessage(Error.CRITICAL, $"Ocorreu um erro inesperado");
                 }
             }
 
@@ -146,10 +146,15 @@ namespace CsvFile
 
             if (!located)
             {
-                this.Errors.Add(new KeyValuePair<Error, string>(Error.CRITICAL, $"Propriedade {column} não localizada na class fornecida"));
+                this.AddErrorMessage(Error.CRITICAL, $"Propriedade {column} não localizada na class fornecida");
             }
 
             return index;
+        }
+
+        private void AddErrorMessage(Error error, string description)
+        {
+            this.Errors.Add(new KeyValuePair<Error, string>(error, $"{description}"));
         }
 
         private void CsvAnalysis(int sizeToSatisfyColumn, string csv)
@@ -163,19 +168,19 @@ namespace CsvFile
                 string[] _colums = _lines[li].Split(';');
 
                 if (string.IsNullOrEmpty(_lines[li]))
-                    this.Errors.Add(new KeyValuePair<Error, string>(Error.NOTICE, $"Linha {li} está vazia ou nula"));
+                    this.AddErrorMessage(Error.NOTICE, $"Linha {li} está vazia ou nula");
 
                 if (_colums.Count() <= 0)
-                    this.Errors.Add(new KeyValuePair<Error, string>(Error.NOTICE, $"Linha {li} não tem colunas"));
+                    this.AddErrorMessage(Error.NOTICE, $"Linha {li} não tem colunas");
 
 
                 if (_colums.Count() > sizeToSatisfyColumn)
                 {
-                    this.Errors.Add(new KeyValuePair<Error, string>(Error.CRITICAL, $"Foi identificado que a linha {li} tem mais colunas({_colums.Count()}) do que a quantidade de propriedades({sizeToSatisfyColumn}) do arquivo csv"));
+                    this.AddErrorMessage(Error.CRITICAL, $"Foi identificado que a linha {li} tem mais colunas({_colums.Count()}) do que a quantidade de propriedades({sizeToSatisfyColumn}) do arquivo csv");
                 }
                 else if (_colums.Count() < sizeToSatisfyColumn)
                 {
-                    this.Errors.Add(new KeyValuePair<Error, string>(Error.CRITICAL, $"Foi identificado que a linha {li} tem menos colunas({_colums.Count()}) do que a quantidade de propriedades({sizeToSatisfyColumn}) do arquivo csv"));
+                    this.AddErrorMessage(Error.CRITICAL, $"Foi identificado que a linha {li} tem menos colunas({_colums.Count()}) do que a quantidade de propriedades({sizeToSatisfyColumn}) do arquivo csv");
                 }
             }
         }

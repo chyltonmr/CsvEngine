@@ -13,7 +13,7 @@ namespace Teste
         {
             Console.WriteLine("Hello World!");
 
-            string linhas = "Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton" + Environment.NewLine + "1;12/11/2021;Lidiane;33;55;990";
+            string linhas = "CHYLTON;Uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton" + Environment.NewLine + "1;12/11/2021;Lidiane;33;55;990";
 
             var csv = new Csv();
             List<Chylton> response = csv.CsvMap<Chylton>(linhas);
