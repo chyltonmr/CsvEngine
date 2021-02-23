@@ -72,7 +72,7 @@ namespace CsvFile
         /// <typeparam name="T">Qualque class Dto para realizar mapeamento</typeparam>
         /// <param name="linhas">string Csv que deve ser utilizada no mapeamento</param>
         /// <returns>Lista da class dto fornecida</returns>
-        public List<T> MapCsv<T>(string linhas, bool CsvAnalysis = true) where T : new()
+        public List<T> CsvToObject<T>(string linhas, bool CsvAnalysis = true) where T : new()
         {
             PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();

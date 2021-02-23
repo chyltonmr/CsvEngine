@@ -26,7 +26,7 @@ namespace Teste
 
             var ad = csv.BuildCsv(listaChylton);
 
-            List<Chylton> response = csv.MapCsv<Chylton>(linhas);
+            List<Chylton> response = csv.CsvToObject<Chylton>(linhas);
 
             if (csv.Errors.Any())
             {
