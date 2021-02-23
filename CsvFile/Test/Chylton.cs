@@ -14,3 +14,5 @@ namespace CsvFile.Test
         public TimeSpan TimeSpan { get; set; }
     }
 }
+// "chylton;34;0;0;01/01/0001 00:00:00;00:00:00;"
+// "chylton;34;0;0;01/01/0001 00:00:00;00:00:00;"

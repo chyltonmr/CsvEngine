@@ -24,10 +24,46 @@ namespace CsvFile
         }
         #endregion
 
-        public string BuildCsv<T>(T linhas) where T : new()
+        //TODO: Criar comentario na class e tamb verificar se e possivel gerar log de erros tamb no metodo
+        public string BuildCsv<T>(List<T> lista)
         {
-            //TODO: Criar funcionalidade
-            return "retorna .csv";
+            string csv = null;
+
+            if (lista.GetType().Name != typeof(List<>).Name)
+            {
+                this.AddErrorMessage(Error.CRITICAL, $"Ocorreu um erro inesperado");
+                return csv;
+            }
+            else
+            {
+                for (int a = 0; a < lista.Count(); a++)
+                {
+                    string comma = ";";
+                    string newLine = Environment.NewLine;
+
+                    PropertyInfo[] properties = lista[a].GetType().GetProperties();
+
+                    for (int i = 0; i < properties.Count(); i++)
+                    {
+                        if (properties[i].CanRead && properties[i].CanWrite)
+                        {
+                            var value = properties[i].GetValue(lista[a]);
+
+                            if (i + 1 == properties.Count())
+                                comma = string.Empty;
+
+                            csv = csv + $"{value}{comma}";
+                        }
+                    }
+
+                    if (a + 1 == lista.Count())
+                        newLine = string.Empty;
+
+                    csv = csv + $"{newLine}";
+                }
+
+                return csv;
+            }
         }
 
         /// <summary>
