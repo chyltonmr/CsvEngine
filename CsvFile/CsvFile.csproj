@@ -1,7 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<PackageId>CsvEngine.chylton</PackageId>
+		<Authors>chylton</Authors>
+		<Company>chylton technology</Company>
+		<Description>Mapeia csv para objeto e vice versa</Description>
+		<PackageTags>csv</PackageTags>
+
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageProjectUrl></PackageProjectUrl>
+		<PackageLicenseFile>license.txt</PackageLicenseFile>
+		<Product>CsvEngine</Product>
+		<Version>1.0.1</Version>
+
+
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="bin\Debug\license.txt">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
 
 </Project>
