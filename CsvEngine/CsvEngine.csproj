@@ -5,19 +5,17 @@
 		<PackageId>CsvEngine.chylton</PackageId>
 		<Authors>chylton</Authors>
 		<Company>chylton technology</Company>
-		<Description>Mapeia csv para objeto e vice versa</Description>
-		<PackageTags>csv;file</PackageTags>
-
+		<Description>Map csv to object and object to csv</Description>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageTags>CsvEngine.chylton;CsvEngine;csv;Engine;chylton;file</PackageTags>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl></PackageProjectUrl>
 		<Product>CsvEngine</Product>
-		<Version>1.0.3</Version>
-		<PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+		<Version>1.0.5</Version>
 
 	</PropertyGroup>
-
 	<ItemGroup>
-		<None Include="bin\Debug\license.txt">
+		<None Include="licenses\LICENSE.txt">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
