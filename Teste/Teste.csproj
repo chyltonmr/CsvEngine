@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CsvFile\CsvFile.csproj" />
+    <ProjectReference Include="..\CsvEngine\CsvEngine.csproj" />
   </ItemGroup>
 
 </Project>

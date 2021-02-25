@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CsvFile.Test
+namespace CsvEngine.Test
 {
     public class Chylton
     {

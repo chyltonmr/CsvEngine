@@ -3,10 +3,9 @@ using System.Reflection;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using CsvFile.Test;
-using CsvFile.Enums;
+using CsvEngine.Enums;
 
-namespace CsvFile
+namespace CsvEngine
 {
     public class Csv
     {
@@ -24,14 +23,19 @@ namespace CsvFile
         }
         #endregion
 
-        //TODO: Criar comentario na class e tamb verificar se e possivel gerar log de erros tamb no metodo
+        /// <summary>
+        /// Gerar csv baseado em uma lista de objeto fornecido
+        /// </summary>
+        /// <typeparam name="T">Qualquer objeto</typeparam>
+        /// <param name="lista">lista de qualuqer objeto fornecido para gerar estrutura csv</param>
+        /// <returns></returns>
         public string BuildCsv<T>(List<T> lista)
         {
             string csv = null;
 
             if (lista.GetType().Name != typeof(List<>).Name)
             {
-                this.AddErrorMessage(Error.CRITICAL, $"Ocorreu um erro inesperado");
+                this.AddErrorMessage(Error.CRITICAL, $"Objetos fornecidos não está contido em uma {typeof(List<>)} para geração de csv!");
                 return csv;
             }
             else
@@ -47,7 +51,7 @@ namespace CsvFile
                     {
                         if (properties[i].CanRead && properties[i].CanWrite)
                         {
-                            var value = properties[i].GetValue(lista[a]);
+                            object value = properties[i].GetValue(lista[a]);
 
                             if (i + 1 == properties.Count())
                                 comma = string.Empty;

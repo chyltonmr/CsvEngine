@@ -6,22 +6,21 @@
 		<Authors>chylton</Authors>
 		<Company>chylton technology</Company>
 		<Description>Mapeia csv para objeto e vice versa</Description>
-		<PackageTags>csv</PackageTags>
+		<PackageTags>csv;file</PackageTags>
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl></PackageProjectUrl>
-		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<Product>CsvEngine</Product>
-		<Version>1.0.1</Version>
-
+		<Version>1.0.3</Version>
+		<PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
 
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="bin\Debug\license.txt">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
+		<None Include="bin\Debug\license.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>

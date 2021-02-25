@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CsvFile.Enums
+namespace CsvEngine.Enums
 {
     public enum Error
     {
