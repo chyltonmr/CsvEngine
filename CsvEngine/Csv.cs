@@ -11,7 +11,6 @@ namespace CsvEngine
     {
         #region Properties
         public List<KeyValuePair<Error, string>> Errors { get; private set; }
-        private List<string> DifferentProperties { get; set; }
         private Type MappingInstance { get; set; }
         #endregion
 
@@ -19,7 +18,6 @@ namespace CsvEngine
         public Csv()
         {
             this.Errors = new List<KeyValuePair<Error, string>>();
-            this.DifferentProperties = new List<string>();
         }
         #endregion
 
@@ -200,12 +198,8 @@ namespace CsvEngine
                 {
                     index = nomePropriedades[i];
                     located = true;
-                    string prop = this.DifferentProperties.SingleOrDefault(x => x == column);
-                    if (string.IsNullOrEmpty(prop))
-                    {
-                        this.DifferentProperties.Add(column);
-                        this.AddErrorMessage(Error.WARNING, $"Propriedade {column} está diferente da propriedade {nomePropriedade} da instancia informada {this.MappingInstance}");
-                    }
+
+                    this.AddErrorMessage(Error.WARNING, $"Propriedade {column} está diferente da propriedade {nomePropriedade} da instancia informada {this.MappingInstance}");
                     break;
                 }
             }
