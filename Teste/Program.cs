@@ -39,6 +39,13 @@ namespace Teste
             {
                 var erros = "Existe erros";
             }
+
+            csv.CsvAnalysis(4, linhas);
+
+            if (csv.Errors.Any())
+            {
+                var erros = "Existe erros";
+            }
         }
     }
 }
