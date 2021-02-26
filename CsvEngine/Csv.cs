@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using CsvEngine.Enums;
+using System.Text;
 
 namespace CsvEngine
 {
@@ -22,7 +23,8 @@ namespace CsvEngine
         #endregion
 
         /// <summary>
-        /// Gerar csv baseado em uma lista de objeto fornecido
+        /// Gerar csv baseado em uma lista de objeto fornecido.
+        /// Colunas das propriedades csv seguem a mesma ordem de criacao das propriedades do objeto que sera mapeado
         /// </summary>
         /// <typeparam name="T">Qualquer objeto</typeparam>
         /// <param name="lista">lista de qualuqer objeto fornecido para gerar estrutura csv</param>
@@ -38,6 +40,9 @@ namespace CsvEngine
             }
             else
             {
+                string lineProperties = this.CreatePropertiesLine(lista[0].GetType().GetProperties());
+                csv = csv + lineProperties;
+
                 for (int a = 0; a < lista.Count(); a++)
                 {
                     string comma = ";";
@@ -72,24 +77,25 @@ namespace CsvEngine
         /// Mapeia string csv para class Dto fornecida
         /// </summary>
         /// <typeparam name="T">Qualque class Dto para realizar mapeamento</typeparam>
-        /// <param name="linhas">string Csv que deve ser utilizada no mapeamento</param>
+        /// <param name="csvString">string Csv que deve ser utilizada no mapeamento</param>
         /// <returns>Lista da class dto fornecida</returns>
-        public List<T> CsvToObject<T>(string linhas, bool CsvAnalysis = true) where T : new()
+        public List<T> CsvToObject<T>(string csvString, bool CsvAnalysis = true) where T : new()
         {
             PropertyInfo[] properties = this.GetDtoProperties<T>();
             var retorno = new List<T>();
             this.MappingInstance = typeof(T);
 
-            (string[] columns, int numberColumns) = this.GetColumns(linhas);
+            int numberProperties = this.TotalCsvProperties(csvString);
 
             if (CsvAnalysis)
-                this.CsvAnalysis(numberColumns, linhas);
+                this.CsvAnalysis(numberProperties, csvString);
 
             if (!this.Errors.Any(x => x.Key == Error.CRITICAL))
             {
                 try
                 {
-                    string[] lines = this.GetLines(linhas);
+                    string[] lines = this.GetLines(csvString, true);
+                    string[] csvProperties = this.GetCsvProperties(csvString);
 
                     for (int i = 0; i < lines.Count(); i++)
                     {
@@ -99,7 +105,7 @@ namespace CsvEngine
 
                         for (int v = 0; v < values.Length; v++)
                         {
-                            PropertyInfo property = this.GetPropertyInfo(properties, columns[v]);
+                            PropertyInfo property = this.GetPropertyInfo(properties, csvProperties[v]);
                             object tipoValorPropriedade = this.TiparValor(property.PropertyType, values[v]);
                             property.SetValue(obj, tipoValorPropriedade);
                         }
@@ -130,26 +136,43 @@ namespace CsvEngine
         }
 
         /// <summary>
-        /// Retorna todas as colunas que representa as propriedades da class Dto
+        /// Retorna total de propriedades encontradas no csv
         /// </summary>
         /// <param name="linhas">string csv completa</param>
         /// <returns></returns>
-        private (string[], int) GetColumns(string linhas)
+        private int TotalCsvProperties(string linhas)
         {
             string[] _linhas = linhas.Split(Environment.NewLine);
             var columns = _linhas[0].Split(';');
-            return (columns, columns.Count());
+            return columns.Count();
         }
 
         /// <summary>
-        /// Retorna somente as linhas dos valores, retirando a primeira linha das propriedades
+        /// Retorna das as propriedades do csv encontradas
         /// </summary>
-        /// <param name="lines">String completa do Csv</param>
+        /// <param name="linhas">string csv completa</param>
         /// <returns></returns>
-        private string[] GetLines(string lines)
+        private string[] GetCsvProperties(string csv)
         {
-            var _lines = lines.Split(Environment.NewLine);
-            _lines = _lines.Skip(1).ToArray();
+            string[] csvLines = csv.Split(Environment.NewLine);
+            var columns = csvLines[0].Split(';');
+            return columns;
+        }
+
+        /// <summary>
+        /// Gera linhas do csv informado
+        /// </summary>
+        /// <param name="csvString">String completa do Csv</param>
+        /// <param name="linesToJump">A partir de qual linha deve retornar os dados</param>
+        /// <returns></returns>
+        private string[] GetLines(string csvString, bool skipProperties)
+        {
+            var _lines = csvString.Split(Environment.NewLine);
+
+            if (skipProperties)
+                _lines = _lines.Skip(1).ToArray();
+            else _lines = _lines.ToArray();
+
             return _lines;
         }
 
@@ -217,11 +240,9 @@ namespace CsvEngine
             this.Errors.Add(new KeyValuePair<Error, string>(error, $"{description}"));
         }
 
-        private void CsvAnalysis(int sizeToSatisfyColumn, string csv)
+        public void CsvAnalysis(int sizeToSatisfyColumn, string csv)
         {
-            string[] _lines = csv.Split(Environment.NewLine);
-
-            _lines = _lines.Skip(1).ToArray();
+            string[] _lines = GetLines(csv, true);
 
             for (int li = 0; li < _lines.Count(); li++)
             {
@@ -243,6 +264,27 @@ namespace CsvEngine
                     this.AddErrorMessage(Error.CRITICAL, $"Foi identificado que a linha {li} tem menos colunas({_colums.Count()}) do que a quantidade de propriedades({sizeToSatisfyColumn}) do arquivo csv");
                 }
             }
+        }
+
+        /// <summary>
+        /// Cria uma linha com as propriedades das colunas fornecidas e adiciona uma quebra de linha no final
+        /// </summary>
+        /// <param name="properties">Propriedades que sera do csv</param>
+        /// <returns></returns>
+        private string CreatePropertiesLine(PropertyInfo[] properties)
+        {
+            var prop = new StringBuilder(string.Empty);
+
+            for (int i = 0; i < properties.Count(); i++)
+            {
+                if (prop.ToString() == string.Empty)
+                    prop.Append($"{properties[i].Name}");
+                else prop.Append($";{properties[i].Name}");
+            }
+
+            prop.Append(Environment.NewLine);
+
+            return prop.ToString();
         }
 
         #endregion

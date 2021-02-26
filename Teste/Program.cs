@@ -17,12 +17,19 @@ namespace Teste
 
             var csv = new Csv();
             var listaChylton = new List<Chylton>();
-            var chy = new Chylton()
+            var chylton = new Chylton()
             {
                 Idade = 34,
                 Nome = "chylton"
             };
-            listaChylton.Add(chy);
+            var fernando = new Chylton()
+            {
+                Idade = 37,
+                Nome = "fernando"
+            };
+
+            listaChylton.Add(chylton);
+            listaChylton.Add(fernando);
 
             var ad = csv.BuildCsv(listaChylton);
 
