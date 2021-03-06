@@ -16,7 +16,20 @@ namespace Teste
             string linhas = "uint;DateTime;Nome;Idade" + Environment.NewLine + "1;12/11/2021;chylton;24" + Environment.NewLine + "1;12/11/2021;Fernando;30";
 
             var csv = new Csv();
-            var listaChylton = new List<Chylton>();
+            var listaChylton = new List<Chylton>()
+            {
+                new Chylton()
+                {
+                   Idade = 34,
+                   Nome = "chylton"
+                },
+                new Chylton()
+                {
+                    Idade = 22,
+                    Nome = "Rock"
+                }
+            };
+
             var chylton = new Chylton()
             {
                 Idade = 34,
